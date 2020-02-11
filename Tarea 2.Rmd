@@ -12,46 +12,34 @@ library(tidyverse)
 ```
 
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-blablablabla tonantzin popurri 
-yupi yupi
-=======
-blablablabla moni
-=======
-blablablabla moni  
->>>>>>> 536b74d3b3b17e181bc898ffa1cfda839914841d
-blablablabla tonantzin popurri
->>>>>>> 0d86e57f3e47c32483119b83b5c868188e05624f
-
 **3. Consideren los siguientes datos**
 
-**a. Encuentra la proyecci?髇 de $X_1$ sobre 1'=(1,1,1,1,1,1)**
+**a. Encuentra la proyecci贸n de $X_1$ sobre 1'=(1,1,1,1,1,1)**
 ```{r}
-  # x1 = N??mina de jugadores
+  # x1 = N贸mina de jugadores
   x1 <- c(3497900,2485475,1782875,1725450,1645575,1469800)
 
   # Defino al vector de 1 normalizado 
   ones <- rep(1,6)/sqrt(6)
   
-  # Definici??n de proyecci??n de x1 sobre 1
+  # Definici贸n de proyecci贸n de x1 sobre 1
   proy = t(x1) %*% ones %*% ones
   proy
   
 ```
 
-**b. Calcula el vector desviaci髇. Relaciona su longitud a la desviaci髇 est醤dar.**
+**b. Calcula el vector desviaci贸n. Relaciona su longitud a la desviaci贸n est谩ndar.**
 ```{r}
-  # Definici??n de vector desviaci??n
+  # Definici贸n de vector desviaci贸n
   vDesv <- x1 - proy
   vDesv
   
-  # Desviaci??n est??ndar
+  # Desviaci贸n est谩ndar
   StanDev <- sd(x1)
   StanDev
 ```
 
-Notemos que el cuadrado de la longitud del vector desviaci髇 es igual a *$n\times d^2$* donde *d* es la desviaci髇 est醤dar
+Notemos que el cuadrado de la longitud del vector desviaci贸n es igual a *$n\times d^2$* donde *d* es la desviaci贸n est谩ndar
 ```{r}
 
   # Longitud del vector
@@ -62,7 +50,7 @@ Notemos que el cuadrado de la longitud del vector desviaci髇 es igual a *$n\time
   
 ```
 
-**c. Grafica (a escala) el tri醤gulo formado por $y_1$, $\bar{x}$, $y_1-\bar{x}$. Identifica la longitud de cada vector en tu gr醘ica**
+**c. Grafica (a escala) el tri谩ngulo formado por $y_1$, $\bar{x}$, $y_1-\bar{x}$. Identifica la longitud de cada vector en tu gr谩fica**
 ```{r}
   
 ```
@@ -102,7 +90,7 @@ vmt
 ```
 Como vmt = 589443426354, 
 
-**4. Dibuja las elipsoides s??lidas para las tres matrices siguientes y determina los valores de los ejes mayores y menores**
+**4. Dibuja las elipsoides s贸lidas para las tres matrices siguientes y determina los valores de los ejes mayores y menores**
 
 **$S_1$**
 ```{r}
@@ -119,14 +107,20 @@ Como vmt = 589443426354,
 datos <- read.csv("D:\\ITAM\\Aplicada III\\Tareas\\HW2\\INEGIConstruccion2017.csv", header=FALSE)
 datos <- datos[-1,]
 
-names(datos) <- as.matrix(datos[1,])    # Tomo primer rengl??n
-datos <- datos[-1,]                     # Elimino el primer rengl??n
+names(datos) <- as.matrix(datos[1,])    # Tomo primer rengl贸n
+datos <- datos[-1,]                     # Elimino el primer rengl贸n
 datos[] <- lapply(datos, function(x) type.convert(as.character(x))) # Primera columna names(datos) se vuelve el header
 
 # Datos de enero 2017
 datos <- datos %>% filter(Periodo == "2017/01")
 head(datos)
 
+# Horas trabajadas (dependiente, no dependiente, etc)
+datosHorasT <- datos[,str_detect(names(datos), "Horas trabajadas")]
+head(datosHorasT)
+
+datosHorasTSinDep <- datosHorasT[,str_detect(names(datosHorasT), "Dependiente", negate=TRUE)]
+head(datosHorasTSinDep)
 # x1: total de horas trabajadas
 
 ```
