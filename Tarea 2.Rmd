@@ -13,10 +13,14 @@ library(tidyverse)
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 blablablabla tonantzin popurri 
 yupi yupi
 =======
 blablablabla moni
+=======
+blablablabla moni  
+>>>>>>> 536b74d3b3b17e181bc898ffa1cfda839914841d
 blablablabla tonantzin popurri
 >>>>>>> 0d86e57f3e47c32483119b83b5c868188e05624f
 
