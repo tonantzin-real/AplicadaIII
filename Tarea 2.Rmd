@@ -26,7 +26,7 @@ blablablabla tonantzin popurri
 
 **3. Consideren los siguientes datos**
 
-**a. Encuentra la proyecci??n de $X_1$ sobre 1'=(1,1,1,1,1,1)**
+**a. Encuentra la proyecci?ón de $X_1$ sobre 1'=(1,1,1,1,1,1)**
 ```{r}
   # x1 = N??mina de jugadores
   x1 <- c(3497900,2485475,1782875,1725450,1645575,1469800)
@@ -40,7 +40,7 @@ blablablabla tonantzin popurri
   
 ```
 
-**b. Calcula el vector desviaci??n. Relaciona su longitud a la desviaci??n est??ndar.**
+**b. Calcula el vector desviación. Relaciona su longitud a la desviación estándar.**
 ```{r}
   # Definici??n de vector desviaci??n
   vDesv <- x1 - proy
@@ -51,7 +51,7 @@ blablablabla tonantzin popurri
   StanDev
 ```
 
-Notemos que el cuadrado de la longitud del vector desviaci??n es igual a *$n\times d^2$* donde *d* es la desviaci??n est??ndar
+Notemos que el cuadrado de la longitud del vector desviación es igual a *$n\times d^2$* donde *d* es la desviación estándar
 ```{r}
 
   # Longitud del vector
@@ -62,7 +62,7 @@ Notemos que el cuadrado de la longitud del vector desviaci??n es igual a *$n\tim
   
 ```
 
-**c. Grafica (a escala) el tri??ngulo formado por $y_1$, $\bar{x}$, $y_1-\bar{x}$. Identifica la longitud de cada vector en tu gr??fica**
+**c. Grafica (a escala) el triángulo formado por $y_1$, $\bar{x}$, $y_1-\bar{x}$. Identifica la longitud de cada vector en tu gráfica**
 ```{r}
   
 ```
