@@ -1,0 +1,122 @@
+---
+title: "Tarea 2"
+output:
+  html_document:
+    df_print: paged
+---
+```{r, message=FALSE, warning=FALSE, echo = FALSE}
+library(lattice)
+library(ggplot2)
+library(nutshell)
+library(tidyverse)
+```
+
+
+**3. Consideren los siguientes datos**
+
+**a. Encuentra la proyección de $X_1$ sobre 1'=(1,1,1,1,1,1)**
+```{r}
+  # x1 = Nómina de jugadores
+  x1 <- c(3497900,2485475,1782875,1725450,1645575,1469800)
+
+  # Defino al vector de 1 normalizado 
+  ones <- rep(1,6)/sqrt(6)
+  
+  # Definición de proyección de x1 sobre 1
+  proy = t(x1) %*% ones %*% ones
+  proy
+  
+```
+
+**b. Calcula el vector desviación. Relaciona su longitud a la desviación estándar.**
+```{r}
+  # Definición de vector desviación
+  vDesv <- x1 - proy
+  vDesv
+  
+  # Desviación estándar
+  StanDev <- sd(x1)
+  StanDev
+```
+
+Notemos que el cuadrado de la longitud del vector desviación es igual a *$n\times d^2$* donde *d* es la desviación estándar
+```{r}
+
+  # Longitud del vector
+  norma <- norm(vDesv)
+  norma^2
+  
+  6*(StanDev^2)
+  
+```
+
+**c. Grafica (a escala) el triángulo formado por $y_1$, $\bar{x}$, $y_1-\bar{x}$. Identifica la longitud de cada vector en tu gráfica**
+```{r}
+  
+```
+
+**d. Repetir los incisos (a) a (c) para $X_2$**
+```{r}
+
+  # x2 = % de perdidos-ganados
+  x2 <- c(0.623,0.593,0.512,0.5,0.463,0.395)
+
+```
+
+**e. Grafique**
+```{r}
+
+```
+
+**f. Calcula la varianza muestral generalizada (vmg) det(S) para estos datos e interpreta**
+```{r}
+  X <- cbind(x1,x2)                 # Creo la matriz de X1 y X2
+  n <- nrow(X)
+  uno <- rep(1,n)
+  xBar <- t(X) %*% uno / n          # x barra
+  H <- diag(n) - uno%*%t(uno) / n   # H
+  Sn <- t(X) %*% H %*% X / n        # Sn
+  S <- n/(n-1) * Sn
+  
+  vmg <- det(S)
+  vmg
+```
+Como vmg = 844182191, 
+
+**g. Calcula la varianza muestral total (vmt) tr(S) para estos datos e interpreta**
+```{r}
+vmt <- sum(diag(S))
+vmt
+```
+Como vmt = 589443426354, 
+
+**4. Dibuja las elipsoides sólidas para las tres matrices siguientes y determina los valores de los ejes mayores y menores**
+
+**$S_1$**
+```{r}
+  S = matrix(c(5,4,4,5),nrow = 2)
+  Sinv = solve(S)
+  Sinv
+```
+
+
+**5. Archivo del INEGI**
+
+**a. Configura la matriz X para poder operar con ella**
+```{r}
+datos <- read.csv("D:\\ITAM\\Aplicada III\\Tareas\\HW2\\INEGIConstruccion2017.csv", header=FALSE)
+datos <- datos[-1,]
+
+names(datos) <- as.matrix(datos[1,])    # Tomo primer renglón
+datos <- datos[-1,]                     # Elimino el primer renglón
+datos[] <- lapply(datos, function(x) type.convert(as.character(x))) # Primera columna names(datos) se vuelve el header
+
+# Datos de enero 2017
+datos <- datos %>% filter(Periodo == "2017/01")
+head(datos)
+
+# x1: total de horas trabajadas
+
+```
+
+
