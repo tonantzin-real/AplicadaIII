@@ -12,7 +12,8 @@ library(tidyverse)
 ```
 
 
-blablablabla tonantzin popurri
+blablablabla tonantzin popurri 
+yupi yupi
 
 **3. Consideren los siguientes datos**
 
