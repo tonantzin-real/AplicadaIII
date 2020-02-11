@@ -12,6 +12,8 @@ library(tidyverse)
 ```
 
 
+blablablabla
+
 **3. Consideren los siguientes datos**
 
 **a. Encuentra la proyecci??n de $X_1$ sobre 1'=(1,1,1,1,1,1)**
