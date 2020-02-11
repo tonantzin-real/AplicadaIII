@@ -12,8 +12,13 @@ library(tidyverse)
 ```
 
 
+<<<<<<< HEAD
 blablablabla tonantzin popurri 
 yupi yupi
+=======
+blablablabla moni
+blablablabla tonantzin popurri
+>>>>>>> 0d86e57f3e47c32483119b83b5c868188e05624f
 
 **3. Consideren los siguientes datos**
 
