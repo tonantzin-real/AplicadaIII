@@ -13,6 +13,7 @@ library(tidyverse)
 
 
 blablablabla moni
+blablablabla tonantzin popurri
 
 **3. Consideren los siguientes datos**
 
