@@ -12,7 +12,7 @@ library(tidyverse)
 ```
 
 
-blablablabla tonantzin
+blablablabla tonantzin popurri
 
 **3. Consideren los siguientes datos**
 
