@@ -104,7 +104,8 @@ Como vmt = 589443426354,
 
 **a. Configura la matriz X para poder operar con ella**
 ```{r}
-datos <- read.csv("D:\\ITAM\\Aplicada III\\Tareas\\HW2\\INEGIConstruccion2017.csv", header=FALSE)
+# datos <- read.csv("D:\\ITAM\\Aplicada III\\Tareas\\HW2\\INEGIConstruccion2017.csv", header=FALSE)
+datos <- read.csv(".\\INEGIConstruccion2017.csv", header=FALSE)
 datos <- datos[-1,]
 
 names(datos) <- as.matrix(datos[1,])    # Tomo primer renglón
@@ -115,14 +116,40 @@ datos[] <- lapply(datos, function(x) type.convert(as.character(x))) # Primera co
 datos <- datos %>% filter(Periodo == "2017/01")
 head(datos)
 
-# Horas trabajadas (dependiente, no dependiente, etc)
-datosHorasT <- datos[,str_detect(names(datos), "Horas trabajadas")]
-head(datosHorasT)
+datosTotalesNac <- datos[,str_detect(names(datos), "Total nacional")]
+# Horas trabajadas (dependiente + no dependiente, o lo mismo que es la suma de los totales por estado)
+hrasTrabajadas <- datosTotalesNac %>% select(2,6) #dependiente y no dependiente
 
-datosHorasTSinDep <- datosHorasT[,str_detect(names(datosHorasT), "Dependiente", negate=TRUE)]
-head(datosHorasTSinDep)
 # x1: total de horas trabajadas
+sumaHorasT <- hrasTrabajadas[,1]+hrasTrabajadas[,2]
+
+#x2: valor total de producción
+totalProd <- datos[,str_detect(names(datos), "tipo de obra > Total Total")]
+
+#x3: total de horas trabajadas Dependiente
+horasDep <- hrasTrabajadas[,1]
+
+#x4: Obreros Dependiente
+obrerosDep <- datosTotalesNac[,str_detect(names(datosTotalesNac), "Obreros")]
+
+#x5: Empleados Dependiente
+empDep <- datosTotalesNac[,str_detect(names(datosTotalesNac), "Empleados")]
+
+#x6: Propietarios Dependiente
+propDep <- datosTotalesNac[,str_detect(names(datosTotalesNac), "Propietarios")]
+
+#x7: total de horas trabajadas No dependiente
+horasNoDep <- hrasTrabajadas[,2]
+
+(X <- c(sumaHorasT, totalProd, horasDep, obrerosDep, empDep, propDep, horasNoDep))
+```
+
+**b. Calcula el vector de medias y la matriz de covarianzas de la matrix X**
+```{r}
+
+#Si consideramos la X como descrita arriba, el vector de medias es el mismo que el vector X
 
 ```
+
 
 
