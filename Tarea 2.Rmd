@@ -12,6 +12,21 @@ library(tidyverse)
 ```
 
 
+**2. 50 observaciones de una $\mathcal{N}(0,1)$ y otras 50 observaciones de una $\mathcal{N}(2,1)$. ¿Cómo se verán las 100 caras de Chernoff si $_X_$ y $_Y_$ definen la línea de la cara y la oscuridad del cabello?, ¿esperan caras similares?, ¿cuántas caras lucen como oservaciones de $_Y_$ cuando aún son observaciones de $_X_$?**
+```{r}
+  ind      = matrix(0, ncol = 36)   # define una indicadora para el argumento which.row
+  ind[,13] = 1                      # linea derecha de la cara
+  ind[,14] = 1                      # oscuridad del cabello lado derecho
+  ind[,31] = 1                      # linea izquierda de la cara
+  ind[,32] = 1                      # oscuridad izquierda del cabello
+  x      = rnorm(50)               
+  y      = rnorm(50, mean = 2) 
+  z      = t(cbind(t(x),t(y)));    # arma matriz (100x1)
+  faces(as.matrix(z[1:50]),ind, main="Observaciones 1 a 50", ncol.plot = 5, nrow.plot = 10) # primeras 50 caras
+  faces(as.matrix(z[51:100]),ind, main="Observaciones 51 a 100", ncol.plot = 5, nrow.plot = 10) # primeras 50 caras
+```
+
+
 **3. Consideren los siguientes datos**
 
 **a. Encuentra la proyección de $X_1$ sobre 1'=(1,1,1,1,1,1)**
@@ -50,20 +65,43 @@ Notemos que el cuadrado de la longitud del vector desviación es igual a *$n\tim
   
 ```
 
-**c. Grafica (a escala) el triángulo formado por $y_1$, $\bar{x}$, $y_1-\bar{x}$. Identifica la longitud de cada vector en tu gráfica**
+**c. Grafica (a escala) el triángulo formado por $y_1$, $\bar{x}_1$, $y_1-\bar{x}_1$. Identifica la longitud de cada vector en tu gráfica**
 ```{r}
   
 ```
 
 **d. Repetir los incisos (a) a (c) para $X_2$**
+*a'. Encuentra la proyección de $X_2$ sobre 1'=(1,1,1,1,1,1)*
 ```{r}
 
   # x2 = % de perdidos-ganados
   x2 <- c(0.623,0.593,0.512,0.5,0.463,0.395)
+  
+  # Definición de proyección de x2 sobre 1
+  proy2 = t(x2) %*% ones %*% ones
+  proy2
+  
+```
+
+*b'. Calcula el vector de desviación*
+```{r}
+
+  # Definición de vector desviación
+  vDesv2 <- x2 - proy2
+  vDesv2
+  
+  # Desviación estándar
+  StanDev2 <- sd(x2)
+  StanDev2
 
 ```
 
-**e. Grafique**
+*c'. Grafica (a escala) el triángulo formado por $y_2$, $\bar{x}_2$, $y_2-\bar{x}_2$. Identifica la longitud de cada vector en tu gráfica*
+```{r}
+
+```
+
+**e. Grafica (a escala) los dos vectores desviación $y_1-\bar{x}_1$ y $y_2-\bar{x}_2$. Calcula el valor del ángulo entre ellos**
 ```{r}
 
 ```
@@ -81,24 +119,22 @@ Notemos que el cuadrado de la longitud del vector desviación es igual a *$n\tim
   vmg <- det(S)
   vmg
 ```
-Como vmg = 844182191, 
+Como la vmg es proporcional al cuadrado del olumen generado por los p vectores de desviación. COmo vmg = 844182191, entonces sabemos que el volumen del elipsoide al cuadrado generado por $S$, será igual al vmg multiplicado por una constante proveniente de la ecuación del elipsoide correspondiente a $S$.
 
 **g. Calcula la varianza muestral total (vmt) tr(S) para estos datos e interpreta**
 ```{r}
 vmt <- sum(diag(S))
 vmt
 ```
-Como vmt = 589443426354, 
+Geométricamente, la vmt es la suma de las longitudes al cuadrado de los p vectores de desviación divididos entre n-1; sin embargo, no le presta atención a la orientación de los vectores residuales.
+Como vmt = 589443426354, entonces sabemos que estas corresponde a la suma de las varrianzas de los p elementos de la matriz.
+
 
 **4. Dibuja las elipsoides sólidas para las tres matrices siguientes y determina los valores de los ejes mayores y menores**
 
-**$S_1$**
 ```{r}
-  S = matrix(c(5,4,4,5),nrow = 2)
-  Sinv = solve(S)
-  Sinv
-```
 
+```
 
 **5. Archivo del INEGI**
 
