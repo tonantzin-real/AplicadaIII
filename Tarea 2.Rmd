@@ -6,11 +6,18 @@ output:
 ---
 ```{r, message=FALSE, warning=FALSE, echo = FALSE}
 library(lattice)
+library(knitr)
 library(ggplot2)
-library(nutshell)
+# library(nutshell)
 library(tidyverse)
 library(aplpack)
 ```
+
+### **Pregunta 1**
+
+![](1a.jpg)
+
+![](1b.jpg)
 
 
 **2. 50 observaciones de una $\mathcal{N}(0,1)$ y otras 50 observaciones de una $\mathcal{N}(2,1)$. ¿Cómo se verán las 100 caras de Chernoff si $_X_$ y $_Y_$ definen la línea de la cara y la oscuridad del cabello?, ¿esperan caras similares?, ¿cuántas caras lucen como oservaciones de $_Y_$ cuando aún son observaciones de $_X_$?**
@@ -74,7 +81,8 @@ Notemos que el cuadrado de la longitud del vector desviación es igual a *$n\tim
 
 **c. Grafica (a escala) el triángulo formado por $y_1$, $\bar{x}_1$, $y_1-\bar{x}_1$. Identifica la longitud de cada vector en tu gráfica**
 ```{r}
-  
+  plot.new()
+  points(x1, proy, vDesv)
 ```
 
 **d. Repetir los incisos (a) a (c) para $X_2$**
@@ -139,9 +147,12 @@ Como vmt = 589443426354, entonces sabemos que estas corresponde a la suma de las
 
 **4. Dibuja las elipsoides sólidas para las tres matrices siguientes y determina los valores de los ejes mayores y menores**
 
-```{r}
+![](4a.jpg)
 
-```
+![](4b.jpg)
+
+![](4c.jpg)
+
 
 **5. Archivo del INEGI**
 
@@ -193,6 +204,19 @@ horasNoDep <- hrasTrabajadas[,2]
 #Si consideramos la X como descrita arriba, el vector de medias es el mismo que el vector X
 
 ```
+### **Pregunta 6**
+![](6.jpg)
 
+### **Pregunta 7**
 
+![](7.jpg)
 
+### **Pregunta 8**
+
+![](8.jpg)
+
+### **Pregunta 9**
+
+![](9a.jpg)
+![](9b.jpg)
+![](9c.jpg)
