@@ -9,6 +9,7 @@ library(lattice)
 library(ggplot2)
 library(nutshell)
 library(tidyverse)
+library(aplpack)
 ```
 
 
@@ -24,7 +25,13 @@ library(tidyverse)
   z      = t(cbind(t(x),t(y)));    # arma matriz (100x1)
   faces(as.matrix(z[1:50]),ind, main="Observaciones 1 a 50", ncol.plot = 5, nrow.plot = 10) # primeras 50 caras
   faces(as.matrix(z[51:100]),ind, main="Observaciones 51 a 100", ncol.plot = 5, nrow.plot = 10) # primeras 50 caras
+  x
+  y
 ```
+
+Sí hubo caras similares. Hay 4 payasos en Y comparado con los 3 que hay de X. Hay casi la misma cantidad de caras rojas y cabello verde; hay 4 caras amarillas en Y comparadas con las 10 que hay en X.
+Las caras rojas son aquellos valores cercanos a 0, mientras que los payasos son los valores más grandes (+/- 3)
+
 
 
 **3. Consideren los siguientes datos**
