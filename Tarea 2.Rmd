@@ -6,11 +6,18 @@ output:
 ---
 ```{r, message=FALSE, warning=FALSE, echo = FALSE}
 library(lattice)
+library(knitr)
 library(ggplot2)
-library(nutshell)
+# library(nutshell)
 library(tidyverse)
 library(aplpack)
 ```
+
+### **Pregunta 1**
+
+![](1a.jpg)
+
+![](1b.jpg)
 
 
 **2. 50 observaciones de una $\mathcal{N}(0,1)$ y otras 50 observaciones de una $\mathcal{N}(2,1)$. ¿Cómo se verán las 100 caras de Chernoff si $_X_$ y $_Y_$ definen la línea de la cara y la oscuridad del cabello?, ¿esperan caras similares?, ¿cuántas caras lucen como oservaciones de $_Y_$ cuando aún son observaciones de $_X_$?**
@@ -25,7 +32,13 @@ library(aplpack)
   z      = t(cbind(t(x),t(y)));    # arma matriz (100x1)
   faces(as.matrix(z[1:50]),ind, main="Observaciones 1 a 50", ncol.plot = 5, nrow.plot = 10) # primeras 50 caras
   faces(as.matrix(z[51:100]),ind, main="Observaciones 51 a 100", ncol.plot = 5, nrow.plot = 10) # primeras 50 caras
+  x
+  y
 ```
+
+Sí hubo caras similares. Hay 4 payasos en Y comparado con los 3 que hay de X. Hay casi la misma cantidad de caras rojas y cabello verde; hay 4 caras amarillas en Y comparadas con las 10 que hay en X.
+Las caras rojas son aquellos valores cercanos a 0, mientras que los payasos son los valores más grandes (+/- 3)
+
 
 
 **3. Consideren los siguientes datos**
@@ -68,7 +81,21 @@ Notemos que el cuadrado de la longitud del vector desviación es igual a *$n\tim
 
 **c. Grafica (a escala) el triángulo formado por $y_1$, $\bar{x}_1$, $y_1-\bar{x}_1$. Identifica la longitud de cada vector en tu gráfica**
 ```{r}
+  nx1 = norm(x1, type = "2")
+  nproy = norm(proy, type = "2")
+  nvDesv = norm(vDesv, type = "2")
+
   
+  x = c(0, nproy/nx1, nproy/nx1)
+  y = c(0, 0,nvDesv/nx1)
+  
+  plot(x, y, xlim = c(0,1.1), ylim = c(0, .4))
+  arrows(0,0, x1 = nproy/nx1, y1 = 0)
+  arrows(0,0, x1 = nproy/nx1, y1 = nvDesv/nx1)
+  arrows(nproy/nx1,0, x1 = nproy/nx1, y1 = nvDesv/nx1)
+  
+  vectores = cbind(x,y)
+  text(vectores, labels = c(round(nproy/nx1,3),round(nvDesv/nx1,3),1), adj = c(0,-1))
 ```
 
 **d. Repetir los incisos (a) a (c) para $X_2$**
@@ -99,7 +126,21 @@ Notemos que el cuadrado de la longitud del vector desviación es igual a *$n\tim
 
 *c'. Grafica (a escala) el triángulo formado por $y_2$, $\bar{x}_2$, $y_2-\bar{x}_2$. Identifica la longitud de cada vector en tu gráfica*
 ```{r}
+  nx2 = norm(x2, type = "2")
+  nproy2 = norm(proy2, type = "2")
+  nvDesv2 = norm(vDesv2, type = "2")
 
+  
+  x = c(0, nproy2/nx2, nproy2/nx2)
+  y = c(0, 0,nvDesv2/nx2)
+  
+  plot(x, y, xlim = c(0,1.1), ylim = c(0, .4))
+  arrows(0,0, x1 = nproy2/nx2, y1 = 0)
+  arrows(0,0, x1 = nproy2/nx2, y1 = nvDesv2/nx2)
+  arrows(nproy2/nx2,0, x1 = nproy2/nx2, y1 = nvDesv2/nx2)
+  
+  vectores = cbind(x,y)
+  text(vectores, labels = c(round(nproy2/nx2,3),round(nvDesv2/nx2,3),1), adj = c(0,-1))
 ```
 
 **e. Grafica (a escala) los dos vectores desviación $y_1-\bar{x}_1$ y $y_2-\bar{x}_2$. Calcula el valor del ángulo entre ellos**
@@ -133,9 +174,12 @@ Como vmt = 589443426354, entonces sabemos que estas corresponde a la suma de las
 
 **4. Dibuja las elipsoides sólidas para las tres matrices siguientes y determina los valores de los ejes mayores y menores**
 
-```{r}
+![](4a.jpg)
 
-```
+![](4b.jpg)
+
+![](4c.jpg)
+
 
 **5. Archivo del INEGI**
 
@@ -187,6 +231,19 @@ horasNoDep <- hrasTrabajadas[,2]
 #Si consideramos la X como descrita arriba, el vector de medias es el mismo que el vector X
 
 ```
+### **Pregunta 6**
+![](6.jpg)
 
+### **Pregunta 7**
 
+![](7.jpg)
 
+### **Pregunta 8**
+
+![](8.jpg)
+
+### **Pregunta 9**
+
+![](9a.jpg)
+![](9b.jpg)
+![](9c.jpg)
