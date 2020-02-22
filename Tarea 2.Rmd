@@ -116,40 +116,79 @@ datos[] <- lapply(datos, function(x) type.convert(as.character(x))) # Primera co
 datos <- datos %>% filter(Periodo == "2017/01")
 head(datos)
 
-datosTotalesNac <- datos[,str_detect(names(datos), "Total nacional")]
-# Horas trabajadas (dependiente + no dependiente, o lo mismo que es la suma de los totales por estado)
-hrasTrabajadas <- datosTotalesNac %>% select(2,6) #dependiente y no dependiente
+
 
 # x1: total de horas trabajadas
-sumaHorasT <- hrasTrabajadas[,1]+hrasTrabajadas[,2]
+(horasTotalesEdos <- t(datos[,str_detect(names(datos), "Horas trabajadas > Total")]))
 
 #x2: valor total de producción
-totalProd <- datos[,str_detect(names(datos), "tipo de obra > Total Total")]
+(totalProd <- t(datos[,str_detect(names(datos), "tipo de obra > Total")]))
+
+#como faltan datos, falta agregar los "NA"s para que la matriz funcione correctamente.
+#están los estados en orden y no falta ninguno antes de Michoacán, por lo que solamente hay que:
+# 1) quitar el primer registro que es el total nacional
+# 2) agregar 16 NAs hasta el final
+totalProd <- as.matrix( totalProd[2:17,]) #1)
+emptyVect <- as.matrix(rep(c(NA), times=16))
+(totalProd <- as.matrix(append(totalProd, emptyVect, after=16)))
+
+
 
 #x3: total de horas trabajadas Dependiente
-horasDep <- hrasTrabajadas[,1]
+horasDep <- as.matrix(t(datos[,str_detect(names(datos), "Dependiente > Total")])[-1,])
+
 
 #x4: Obreros Dependiente
-obrerosDep <- datosTotalesNac[,str_detect(names(datosTotalesNac), "Obreros")]
+obrerosDep <- as.matrix(t(datos[,str_detect(names(datos), "Obreros")])[-1,])
 
 #x5: Empleados Dependiente
-empDep <- datosTotalesNac[,str_detect(names(datosTotalesNac), "Empleados")]
+empDep <- as.matrix(t(datos[,str_detect(names(datos), "Empleados")])[-1,])
 
 #x6: Propietarios Dependiente
-propDep <- datosTotalesNac[,str_detect(names(datosTotalesNac), "Propietarios")]
+propDep <- as.matrix(t(datos[,str_detect(names(datos), "Propietarios")])[-1,])
 
 #x7: total de horas trabajadas No dependiente
-horasNoDep <- hrasTrabajadas[,2]
+horasNoDep <- as.matrix(t(datos[,str_detect(names(datos), "No dependiente")])[-1,])
 
-(X <- c(sumaHorasT, totalProd, horasDep, obrerosDep, empDep, propDep, horasNoDep))
+(X <- cbind(horasTotalesEdos, totalProd, horasDep, obrerosDep, empDep, propDep, horasNoDep))
+
+#Para hacer más clara nuestra tabla, adaptamos los nombres de los renglones
+rownames(X) <- str_remove(as.array(rownames(X)), "Construcción \\(encuesta mensual\\) > Por entidad federativa > Horas trabajadas > Total ")
+rownames(X) <- str_remove(as.array(rownames(X)), "\\(Miles de horas\\)")
+
+X
 ```
 
 **b. Calcula el vector de medias y la matriz de covarianzas de la matrix X**
 ```{r}
 
-#Si consideramos la X como descrita arriba, el vector de medias es el mismo que el vector X
+(XBarra <- colMeans(X, na.rm = TRUE))
+
+(S <- var(X, na.rm = TRUE))
+
 
 ```
+
+**c. Verifiquen que det(S) = $\prod_{i = 1}^{7} s_{i}^2$ $\times$det(R)**
+
+Si analizamos los eigenvalores de nuestra matriz de varianza de los datos, notamos que los valores son muy dispersos, y uno de ellos es muy cercano a cero. Esto puede ocasionar que su producto sea extremádamente cercano a cero y el resultado deseado no se alcance. Por ende, vamos a aplicar la función $log()$ a los datos, para corregir así la disparidad de los eigenvalores.
+```{r}
+X <- log(X)
+R <- cor(X, use = "complete.obs")
+detR <- det(R)
+S <- var(X, na.rm = TRUE)
+detS <- det(S)
+
+vaps <- eigen(S)$values
+
+(det(prod(vaps)*cor(R))-det(S))
+
+```
+
+Como podemos notar, la diferencia es casi despreciable, por lo que podemos afirmar que el enunciado de arriba es cierto.
+
+
+
 
 
 
