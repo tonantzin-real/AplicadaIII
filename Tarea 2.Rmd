@@ -1,9 +1,11 @@
 ---
 title: "Tarea 2"
+author: "Mónica Alba, Luis Landa, Uriel Martínez, Tonantzin Real"
+date: "Febrero 24, 2020"
 output:
-  pdf_document: default
   html_document:
     df_print: paged
+  pdf_document: default
 ---
 ```{r, message=FALSE, warning=FALSE, echo = FALSE}
 library(lattice)
