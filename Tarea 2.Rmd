@@ -1,6 +1,7 @@
 ---
 title: "Tarea 2"
 output:
+  pdf_document: default
   html_document:
     df_print: paged
 ---
@@ -20,7 +21,7 @@ library(aplpack)
 ![](1b.jpg)
 
 
-**2. 50 observaciones de una $\mathcal{N}(0,1)$ y otras 50 observaciones de una $\mathcal{N}(2,1)$. ¿Cómo se verán las 100 caras de Chernoff si $_X_$ y $_Y_$ definen la línea de la cara y la oscuridad del cabello?, ¿esperan caras similares?, ¿cuántas caras lucen como oservaciones de $_Y_$ cuando aún son observaciones de $_X_$?**
+**2. 50 observaciones de una $\mathcal{N}(0,1)$ y otras 50 observaciones de una $\mathcal{N}(2,1)$. ¿Cómo se verán las 100 caras de Chernoff si $X$ y $Y$ definen la línea de la cara y la oscuridad del cabello?, ¿esperan caras similares?, ¿cuántas caras lucen como oservaciones de $Y$ cuando aún son observaciones de $X$?**
 ```{r}
   ind      = matrix(0, ncol = 36)   # define una indicadora para el argumento which.row
   ind[,13] = 1                      # linea derecha de la cara
@@ -68,14 +69,14 @@ Las caras rojas son aquellos valores cercanos a 0, mientras que los payasos son 
   StanDev
 ```
 
-Notemos que el cuadrado de la longitud del vector desviación es igual a *$n\times d^2$* donde *d* es la desviación estándar
+Notemos que el cuadrado de la longitud del vector desviación es igual a la suma del cuadrado de las desviaciones
 ```{r}
 
   # Longitud del vector
-  norma <- norm(vDesv)
+  norma <- norm(vDesv,type = "2")
   norma^2
   
-  6*(StanDev^2)
+  vDesv%*%t(vDesv)
   
 ```
 
@@ -146,6 +147,18 @@ Notemos que el cuadrado de la longitud del vector desviación es igual a *$n\tim
 **e. Grafica (a escala) los dos vectores desviación $y_1-\bar{x}_1$ y $y_2-\bar{x}_2$. Calcula el valor del ángulo entre ellos**
 ```{r}
 
+  (theta<-acos(vDesv%*%t(vDesv2)/(nvDesv*nvDesv2)))
+  
+  x = c(1,1*cos(theta))
+  y = c(0,1*sin(theta))
+  
+  plot(x,y, xlim = c(0,2), ylim = c(0, 2))
+  
+  arrows(0,0, x1 = 1, y1 = 0)
+  arrows(0,0,x1=1*cos(theta),y1=1*sin(theta) )
+  
+  
+  vectores = cbind(x,y)
 ```
 
 **f. Calcula la varianza muestral generalizada (vmg) det(S) para estos datos e interpreta**
