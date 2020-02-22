@@ -6,10 +6,39 @@ output:
 ---
 ```{r, message=FALSE, warning=FALSE, echo = FALSE}
 library(lattice)
+library(knitr)
 library(ggplot2)
-library(nutshell)
+# library(nutshell)
 library(tidyverse)
+library(aplpack)
 ```
+
+### **Pregunta 1**
+
+![](1a.jpg)
+
+![](1b.jpg)
+
+
+**2. 50 observaciones de una $\mathcal{N}(0,1)$ y otras 50 observaciones de una $\mathcal{N}(2,1)$. ¿Cómo se verán las 100 caras de Chernoff si $_X_$ y $_Y_$ definen la línea de la cara y la oscuridad del cabello?, ¿esperan caras similares?, ¿cuántas caras lucen como oservaciones de $_Y_$ cuando aún son observaciones de $_X_$?**
+```{r}
+  ind      = matrix(0, ncol = 36)   # define una indicadora para el argumento which.row
+  ind[,13] = 1                      # linea derecha de la cara
+  ind[,14] = 1                      # oscuridad del cabello lado derecho
+  ind[,31] = 1                      # linea izquierda de la cara
+  ind[,32] = 1                      # oscuridad izquierda del cabello
+  x      = rnorm(50)               
+  y      = rnorm(50, mean = 2) 
+  z      = t(cbind(t(x),t(y)));    # arma matriz (100x1)
+  faces(as.matrix(z[1:50]),ind, main="Observaciones 1 a 50", ncol.plot = 5, nrow.plot = 10) # primeras 50 caras
+  faces(as.matrix(z[51:100]),ind, main="Observaciones 51 a 100", ncol.plot = 5, nrow.plot = 10) # primeras 50 caras
+  x
+  y
+```
+
+Sí hubo caras similares. Hay 4 payasos en Y comparado con los 3 que hay de X. Hay casi la misma cantidad de caras rojas y cabello verde; hay 4 caras amarillas en Y comparadas con las 10 que hay en X.
+Las caras rojas son aquellos valores cercanos a 0, mientras que los payasos son los valores más grandes (+/- 3)
+
 
 
 **3. Consideren los siguientes datos**
@@ -50,20 +79,71 @@ Notemos que el cuadrado de la longitud del vector desviación es igual a *$n\tim
   
 ```
 
-**c. Grafica (a escala) el triángulo formado por $y_1$, $\bar{x}$, $y_1-\bar{x}$. Identifica la longitud de cada vector en tu gráfica**
+**c. Grafica (a escala) el triángulo formado por $y_1$, $\bar{x}_1$, $y_1-\bar{x}_1$. Identifica la longitud de cada vector en tu gráfica**
 ```{r}
+  nx1 = norm(x1, type = "2")
+  nproy = norm(proy, type = "2")
+  nvDesv = norm(vDesv, type = "2")
+
   
+  x = c(0, nproy/nx1, nproy/nx1)
+  y = c(0, 0,nvDesv/nx1)
+  
+  plot(x, y, xlim = c(0,1.1), ylim = c(0, .4))
+  arrows(0,0, x1 = nproy/nx1, y1 = 0)
+  arrows(0,0, x1 = nproy/nx1, y1 = nvDesv/nx1)
+  arrows(nproy/nx1,0, x1 = nproy/nx1, y1 = nvDesv/nx1)
+  
+  vectores = cbind(x,y)
+  text(vectores, labels = c(round(nproy/nx1,3),round(nvDesv/nx1,3),1), adj = c(0,-1))
 ```
 
 **d. Repetir los incisos (a) a (c) para $X_2$**
+*a'. Encuentra la proyección de $X_2$ sobre 1'=(1,1,1,1,1,1)*
 ```{r}
 
   # x2 = % de perdidos-ganados
   x2 <- c(0.623,0.593,0.512,0.5,0.463,0.395)
+  
+  # Definición de proyección de x2 sobre 1
+  proy2 = t(x2) %*% ones %*% ones
+  proy2
+  
+```
+
+*b'. Calcula el vector de desviación*
+```{r}
+
+  # Definición de vector desviación
+  vDesv2 <- x2 - proy2
+  vDesv2
+  
+  # Desviación estándar
+  StanDev2 <- sd(x2)
+  StanDev2
 
 ```
 
-**e. Grafique**
+*c'. Grafica (a escala) el triángulo formado por $y_2$, $\bar{x}_2$, $y_2-\bar{x}_2$. Identifica la longitud de cada vector en tu gráfica*
+```{r}
+  nx2 = norm(x2, type = "2")
+  nproy2 = norm(proy2, type = "2")
+  nvDesv2 = norm(vDesv2, type = "2")
+
+  
+  x = c(0, nproy2/nx2, nproy2/nx2)
+  y = c(0, 0,nvDesv2/nx2)
+  
+  plot(x, y, xlim = c(0,1.1), ylim = c(0, .4))
+  arrows(0,0, x1 = nproy2/nx2, y1 = 0)
+  arrows(0,0, x1 = nproy2/nx2, y1 = nvDesv2/nx2)
+  arrows(nproy2/nx2,0, x1 = nproy2/nx2, y1 = nvDesv2/nx2)
+  
+  vectores = cbind(x,y)
+  text(vectores, labels = c(round(nproy2/nx2,3),round(nvDesv2/nx2,3),1), adj = c(0,-1))
+```
+
+**e. Grafica (a escala) los dos vectores desviación $y_1-\bar{x}_1$ y $y_2-\bar{x}_2$. Calcula el valor del ángulo entre ellos**
 ```{r}
 
 ```
@@ -81,23 +161,24 @@ Notemos que el cuadrado de la longitud del vector desviación es igual a *$n\tim
   vmg <- det(S)
   vmg
 ```
-Como vmg = 844182191, 
+Como la vmg es proporcional al cuadrado del olumen generado por los p vectores de desviación. COmo vmg = 844182191, entonces sabemos que el volumen del elipsoide al cuadrado generado por $S$, será igual al vmg multiplicado por una constante proveniente de la ecuación del elipsoide correspondiente a $S$.
 
 **g. Calcula la varianza muestral total (vmt) tr(S) para estos datos e interpreta**
 ```{r}
 vmt <- sum(diag(S))
 vmt
 ```
-Como vmt = 589443426354, 
+Geométricamente, la vmt es la suma de las longitudes al cuadrado de los p vectores de desviación divididos entre n-1; sin embargo, no le presta atención a la orientación de los vectores residuales.
+Como vmt = 589443426354, entonces sabemos que estas corresponde a la suma de las varrianzas de los p elementos de la matriz.
+
 
 **4. Dibuja las elipsoides sólidas para las tres matrices siguientes y determina los valores de los ejes mayores y menores**
 
-**$S_1$**
-```{r}
-  S = matrix(c(5,4,4,5),nrow = 2)
-  Sinv = solve(S)
-  Sinv
-```
+![](4a.jpg)
+
+![](4b.jpg)
+
+![](4c.jpg)
 
 
 **5. Archivo del INEGI**
@@ -117,12 +198,13 @@ datos <- datos %>% filter(Periodo == "2017/01")
 head(datos)
 
 
-
 # x1: total de horas trabajadas
-(horasTotalesEdos <- t(datos[,str_detect(names(datos), "Horas trabajadas > Total")]))
+horasTotalesEdos <- t(datos[,str_detect(names(datos), "Horas trabajadas > Total")])
+
 
 #x2: valor total de producción
-(totalProd <- t(datos[,str_detect(names(datos), "tipo de obra > Total")]))
+totalProd <- t(datos[,str_detect(names(datos), "tipo de obra > Total")])
+
 
 #como faltan datos, falta agregar los "NA"s para que la matriz funcione correctamente.
 #están los estados en orden y no falta ninguno antes de Michoacán, por lo que solamente hay que:
@@ -130,8 +212,7 @@ head(datos)
 # 2) agregar 16 NAs hasta el final
 totalProd <- as.matrix( totalProd[2:17,]) #1)
 emptyVect <- as.matrix(rep(c(NA), times=16))
-(totalProd <- as.matrix(append(totalProd, emptyVect, after=16)))
-
+totalProd <- as.matrix(append(totalProd, emptyVect, after=16))
 
 
 #x3: total de horas trabajadas Dependiente
@@ -150,7 +231,7 @@ propDep <- as.matrix(t(datos[,str_detect(names(datos), "Propietarios")])[-1,])
 #x7: total de horas trabajadas No dependiente
 horasNoDep <- as.matrix(t(datos[,str_detect(names(datos), "No dependiente")])[-1,])
 
-(X <- cbind(horasTotalesEdos, totalProd, horasDep, obrerosDep, empDep, propDep, horasNoDep))
+X <- cbind(horasTotalesEdos, totalProd, horasDep, obrerosDep, empDep, propDep, horasNoDep)
 
 #Para hacer más clara nuestra tabla, adaptamos los nombres de los renglones
 rownames(X) <- str_remove(as.array(rownames(X)), "Construcción \\(encuesta mensual\\) > Por entidad federativa > Horas trabajadas > Total ")
@@ -185,10 +266,22 @@ vaps <- eigen(S)$values
 
 ```
 
-Como podemos notar, la diferencia es casi despreciable, por lo que podemos afirmar que el enunciado de arriba es cierto.
+Como podemos notar, la diferencia es casi cero, por lo que podemos decir que el error es despreciable y así afirmamos que el enunciado de arriba es cierto.
+
+### **Pregunta 6**
+![](6.jpg)
+
+### **Pregunta 7**
+
+![](7.jpg)
+
+### **Pregunta 8**
+
+![](8.jpg)
 
 
+### **Pregunta 9**
 
-
-
-
+![](9a.jpg)
+![](9b.jpg)
+![](9c.jpg)
